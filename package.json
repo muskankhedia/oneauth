@@ -38,6 +38,7 @@
     "csurf": "^1.9.0",
     "datadog-tracer": "^0.3.4",
     "debug": "^3.1.0",
+    "eslint": "^5.16.0",
     "express": "^4.16.0",
     "express-flash": "^0.0.2",
     "express-ga-middleware": "^0.1.6",
@@ -84,15 +85,14 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "cross-env": "^5.1.5",
-    "mocha": "^5.2.0",
-    "nyc": "^13.3.0",
-    "rimraf": "^2.6.2",
-    "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
+    "rimraf": "^2.6.2"
   },
   "nyc": {
     "extensions": [

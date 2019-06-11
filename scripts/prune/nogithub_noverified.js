@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 const config = require('../../config');
 const secret = config.SECRETS;
 const {db, models: {
-    User
+	User
 }} = require('../../src/db/models');
 /*
  * People with multiple accounts with same email
@@ -9,9 +11,9 @@ const {db, models: {
  * But no Github connected
  */
 async function runPrune() {
-    try {
+	try {
 
-        const [users, result] = await db.query(`
+		const [users, result] = await db.query(`
 select count("email"), count("verifiedemail") as "verifieds", "email",
         count("userfacebooks"."id") as "fb",
         count("usergithubs"."id") as "gh",
@@ -26,29 +28,30 @@ having
     count("email") > 1 and
     count("usergithubs"."id") < 1 and
     count("verifiedemail") > 0
-        `)
-        console.log("Going to delete " + users.length + " users")
-        /* Delete all without verified emails */
-        for (let user of users) {
-            console.log("Deleting for " + user.email )
-            await User.destroy({
-                where: {
-                    email: user.email,
-                    verifiedemail: {$eq: null}
-                }
-            })
-        }
+        `);
+		console.log('Going to delete ' + users.length + ' users');
+		/* Delete all without verified emails */
+		for (let user of users) {
+			console.log('Deleting for ' + user.email );
+			await User.destroy({
+				where: {
+					email: user.email,
+					verifiedemail: {$eq: null}
+				}
+			});
+		}
 
 
 
-    } catch (err) {
-        console.error(err)
-    } finally {
-        process.exit()
-    }
+	} catch (err) {
+		console.error(err);
+	} finally {
+		// eslint-disable-next-line no-undef
+		process.exit();
+	}
 }
 
-runPrune()
+runPrune();
 
 /*
 NOTES: This deleted (paranoid) 318 users on 2018-06-08

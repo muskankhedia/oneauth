@@ -1,15 +1,18 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 const config = require('../../config');
 const {db, models: {
-    User
+	User
 }} = require('../../src/db/models');
 /*
  * All those users who have multiple accounts with same email
  * among which one is verified
  */
 async function runPrune() {
-    try {
-        // Only deleting older than 01 May 2018
-        const [users] = await db.query(`
+	try {
+		// Only deleting older than 01 May 2018
+		const [users] = await db.query(`
 SELECT
         count("email") AS "count",
         count("verifiedemail") as "Verified",
@@ -26,29 +29,29 @@ HAVING
         count("email") > 1 AND
         count("verifiedemail") = 0
 ORDER BY "count" DESC, "users"."email" ASC
-        `)
-        console.log("Going to delete " + users.length + " users")
-        for (let user of users) {
-            console.log("Deleting for " + user.email )
-            await User.destroy({
-                where: {
-                    email: user.email,
-                    verifiedemail: { $eq: null}
-                },
-                // force: true // this *REALLY* deletes, not just deletedAt
-            })
-        }
+        `);
+		console.log('Going to delete ' + users.length + ' users');
+		for (let user of users) {
+			console.log('Deleting for ' + user.email );
+			await User.destroy({
+				where: {
+					email: user.email,
+					verifiedemail: { $eq: null}
+				},
+				// force: true // this *REALLY* deletes, not just deletedAt
+			});
+		}
 
 
 
-    } catch (err) {
-        console.error(err)
-    } finally {
-        process.exit()
-    }
+	} catch (err) {
+		console.error(err);
+	} finally {
+		process.exit();
+	}
 }
 
-runPrune()
+runPrune();
 
 /*
 NOTES:
